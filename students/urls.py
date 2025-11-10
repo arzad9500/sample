@@ -2,7 +2,7 @@ from django.urls import path
 from students.views import *  # StudentAPI is class 
 
 urlpatterns = [
-    path('details/',StudentAPI.as_view()),
+    path('details/',StudentAPI.as_view()), # this for get and post
     path('details/<int:student_id>/',StudentAPI.as_view()),
 
     path('task/',TaskAPI.as_view()),

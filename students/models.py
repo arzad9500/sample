@@ -8,8 +8,8 @@ class Student(models.Model):
     def __str__(self):
         return self.name
     
-class Task (models.Model):
-
+class Task (models.Model): # Student shoud be before(up) coz foreign key
+    # can be also use other model here
     student_reference = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
     task_name   = models.CharField(max_length=150)
     description = models.TextField()

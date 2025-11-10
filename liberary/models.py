@@ -10,11 +10,11 @@ class Book(models.Model):
     
         return self.title
 
-class laptop(models.Model):
+class laptop(models.Model): # this need serilizers
 
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
-    user_type = models.CharField(max_length=100,null = True)
+    user_type = models.CharField(max_length=100,null = True)  # this is null so this is optional
 
     def __str__(self):
         return self.brand
