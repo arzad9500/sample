@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta # this for we use jwt token 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'students',
     'liberary',
+    'authentication',
+    'rest_framework_simplejwt', # this may not in gpt
+    "corsheaders",  # this for may work in frontend
 ]
 
 MIDDLEWARE = [
@@ -50,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware", # this for core_header (allow frontend settings)
 ]
 
 ROOT_URLCONF = 'SCHOOLMANAGEMENT.urls'
@@ -127,3 +132,28 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'authentication.user' # this for we add some custom fields to default user model
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # we will override with jwt token
+    )
+}
+
+SIMPLE_JWT={
+    'ACCESS_TOKEN_LIFETIME' : timedelta(minutes=30), # after create 30 min time
+    'REFRESS_TOKEN_LIFETIME' : timedelta(days=1), 
+    # 'ROTATE_REFRESS_TOKEN' : True,
+    # 'BLACKLIST_AFTER_ROTATION' : True,
+
+}
+
+# CORS_ALLOW_ALL_ORIGINS :True  # it means any frontend allow to access api , if it public appp it might be true
+
+CORS_ALLOWED_ORIGINS = [ # here we put ip address for the device in the company 
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+]

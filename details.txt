@@ -1,0 +1,198 @@
+⭐ 1. request.POST
+Meaning: Data sent from an HTML form (POST method).
+Example:
+def register(request):
+    name = request.POST['name']
+    print(name)
+
+
+⭐ 2. request.POST.get('key')
+Meaning: Safe way to get form data. If key missing → returns None or default.
+Example:
+email = request.POST.get('email', '')
+
+
+⭐ 3. request.data (DRF)
+Meaning: Data from API (JSON/form/multipart/PUT/PATCH).
+Example:
+name = request.data['name']
+
+
+⭐ 4. objects.all()
+Meaning: Get all rows from DB.
+Example:
+students = Student.objects.all()
+
+
+⭐ 5. objects.get()
+Meaning: Get only one object.
+If not found → error.
+Example:
+student = Student.objects.get(id=1)
+
+
+⭐ 6. objects.filter()
+Meaning: Get multiple objects matching condition.
+If nothing found → empty (no error).
+Example:
+adult_students = Student.objects.filter(age__gte=18)
+
+
+⭐ 7. update()
+Meaning: Update directly in DB without loading object.
+Example:
+Student.objects.filter(id=1).update(name='Arzad', age=28)
+
+
+⭐ 8. create()
+Meaning: Shortcut for creating + saving object.
+Example:
+Student.objects.create(name="Kumar", age=22)
+
+
+⭐ 9. .delete()
+Meaning: Delete data.
+Example:
+student = Student.objects.get(id=3)
+student.delete()
+
+
+⭐ 10. serializer.is_valid()
+Meaning: Checks if data is valid.
+Example:
+serializer = StudentSerializer(data=request.data)
+if serializer.is_valid():
+    serializer.save()
+
+
+⭐ 11. serializer.save()
+Meaning: Saves serializer data (create/update automatically).
+Example:
+serializer = StudentSerializer(data=request.data)
+serializer.save()
+
+
+⭐ 12. partial=True
+Meaning: Allows partial update (PATCH).
+Without this → all fields required.
+Example:
+serializer = StudentSerializer(student, data=request.data, partial=True)
+
+
+⭐ 13. request.FILES
+Meaning: Files/images uploaded by client.
+Example:
+photo = request.FILES['profile_pic']
+
+
+⭐ 14. authenticate()
+Meaning: Validates username + password.
+Example:
+user = authenticate(username='john', password='1234')
+
+
+⭐ 15. set_password()
+Meaning: Hashes password before saving.
+Example:
+user = User(username='john')
+user.set_password('1234')
+user.save()
+
+
+⭐ 16. permission_classes
+Meaning: Controls who can access API.
+Example:
+class Profile(APIView):
+    permission_classes = [IsAuthenticated]
+
+
+⭐ 17. @api_view([...])
+Meaning: Function-based API in DRF.
+Example:
+@api_view(['GET'])
+def home(request):
+    return Response({"msg": "hello"})
+
+
+⭐ 18. reverse()
+Meaning: Get URL using its name.
+Example:
+from django.urls import reverse
+return redirect(reverse('inventory:all_product'))
+
+
+⭐ 19. objects.first()
+Meaning: Returns first object or None.
+Example:
+student = Student.objects.filter(age=18).first()
+
+
+⭐ 20. objects.last()
+Meaning: Returns last object or None.
+Example:
+student = Student.objects.last()
+
+
+⭐ 21. exists()
+Meaning: Checks if queryset has at least one result.
+Example:
+if Student.objects.filter(email='a@gmail.com').exists():
+    print("Exists")
+
+
+⭐ 22. order_by()
+Meaning: Sort result.
+Example:
+Student.objects.all().order_by('name')     # A → Z
+Student.objects.all().order_by('-age')     # Descending
+
+
+⭐ 23. values()
+Meaning: Returns only selected fields (as dict).
+Example:
+Student.objects.values('name', 'age')
+
+
+⭐ 24. values_list()
+Meaning: Like values but returns tuple list.
+Example:
+Student.objects.values_list('name', flat=True)
+
+
+⭐ 25. get_object_or_404()
+Meaning: Returns object or gives 404 error.
+Example:
+student = get_object_or_404(Student, id=5)
+
+
+⭐ 26. ManyToManyField
+Meaning: Many-to-many relationship.
+Example:
+subjects = student.subjects.all()
+
+
+⭐ 27. ForeignKey
+Meaning: Connect one model to another (parent-child).
+Example:
+task = Task.objects.create(student_reference_id=1)
+
+
+⭐ 28. prefetch_related()
+Meaning: Optimizes query for ManyToMany.
+Example:
+Student.objects.prefetch_related('subjects')
+
+
+⭐ 29. select_related()
+Meaning: Optimizes query for ForeignKey.
+Example:
+Task.objects.select_related('student_reference')
+
+
+⭐ 30. Response()
+Meaning: Send API response in DRF.
+Example:
+return Response({"status": "ok"})
+
+
+If you want, I can make this into a PDF cheat sheet you can download and study anytime.

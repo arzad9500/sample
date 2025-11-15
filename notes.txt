@@ -1,0 +1,6 @@
+
+
+pip install restframework-simplejwt  -- > for jwt token
+pip install python-decouple --> for .env file
+pip install django-cors-headers --> 
+need to know status code check in status

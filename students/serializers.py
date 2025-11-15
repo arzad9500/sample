@@ -16,11 +16,14 @@ class  Task_serializers(ModelSerializer):
         fields = '__all__'
 
 class Student_task_serializer(ModelSerializer):
+    all_task = Task_serializers(many=True)      # this for a student has many task
+
     class Meta :
         model = Student
         fields = '__all__'
 
-class  Task_data_serializers(ModelSerializer):
+# check video 18
+class  Task_data_serializers(ModelSerializer): # see get method in taskAPI in views.py , it use this serializer (for get ) 
 
     student_reference = Student_serializer() # student_reference this is already in model field(foreign key field)
                                             # is in up , these for need to show students fiels insie task model(foreign key model)

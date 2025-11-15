@@ -6,11 +6,18 @@ from students.serializers import *
 
 from rest_framework.decorators import api_view # this for function based view
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated # this for jwt token 
 
+from decouple import config  # this for can get key names from .env
 
 class  StudentAPI(APIView): # inherit with apiview so it is api class
 
+    permission_classes =[IsAuthenticated] # this for jwt token
+
     def get(self,request): #1
+
+        person_name =config('nick_name')
+        print(person_name)       # it will print in terminal , its from .env
 
         all_student=Student.objects.all() #2 # Student is model
 
@@ -33,7 +40,7 @@ class  StudentAPI(APIView): # inherit with apiview so it is api class
     def post(self,request):
 
         # print(request.data) # data is container(keywoard) it will save the frontend post data # this will print in terminal
-        
+    
         new_student=Student(name=request.data['name'],age=request.data['age'])# first name is from Studens(models) key(dict) name , 2nd name is from frontend(key name)
         new_student.save()
 
@@ -79,15 +86,20 @@ class TaskAPI(APIView):
             return Response (task_data)
 
     def post(self, request):
+        # this method without serializers , so _id is need (like store in d/b) for this 
+        new_task = Task(student_reference_id = request.data['student_reference'],task_name =
+                        request.data['task_ame'],description = request.data['description'])
+        new_task.save()
+        return Response('task created')
 
-        new_task = Task_serializers(data = request.data)
+        # new_task = Task_serializers(data = request.data)
 
-        if new_task.is_valid():
-            new_task.save()
-            return Response ('new task added')
+        # if new_task.is_valid():
+        #     new_task.save()
+        #     return Response ('new task added')
         
-        else:
-            return Response (new_task.errors, status=status.HTTP_400_BAD_REQUEST)
+        # else:
+        #     return Response (new_task.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def patch (self , request , task_id):
         
